@@ -1,15 +1,25 @@
 const messages = document.querySelector(".chat-widget__messages");
+let answers = [
+  'Подождите, мы обедаем!',
+  'Мы ещё не проснулись. Позвоните через 10 лет',
+  'Кто здесь?',
+  'Все операторы заняты, не пишите нам!',
+  'До свидания!',
+  'Напишите нам завтра!',
+  'Как ваши дела?',
+  'Мы ничего не будем вам продавать!',
+];
 
 document.querySelector(".chat-widget").onclick = () => {
   document.querySelector(".chat-widget").classList.add("chat-widget_active");
 };
 
 document.getElementById("chat-widget__input").onkeydown = function (e) {
-  console.log(e.key);
-  if (e.code == "Enter") {
 
-    //сообщение, введенное пользователем
-    let clientMassage = document.querySelector("input").value;
+  //сообщение, введенное пользователем
+  let clientMassage = document.querySelector("input").value;
+
+  if (e.code == "Enter" && clientMassage != '') {
 
     //функция текущего времени в формате 00:00
     function getCurrentTime() {
@@ -32,13 +42,17 @@ document.getElementById("chat-widget__input").onkeydown = function (e) {
     document.querySelector("input").value = " ";
 
     //ответ бота
+    let randomAnswer = Math.floor(Math.random() * answers.length);
     messages.innerHTML += `
             <div class="message">
                 <div class="message__time">09:21</div>
-                <div class="message__text">
-                    Добрый день, мы ещё не проснулись. Позвоните через 10 лет
-                </div>
+                <div class="message__text">${answers[randomAnswer]}</div>
             </div>
         `;
+
+    //автоматическая прокрутка до последнего сообщения
+    let lastMessage = document.querySelector(".chat-widget__messages-container");
+    lastMessage.scrollTop = lastMessage.scrollHeight;
   }
+
 };
