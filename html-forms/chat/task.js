@@ -53,6 +53,7 @@ document.getElementById("chat-widget__input").onkeydown = function (e) {
     //автоматическая прокрутка до последнего сообщения
     let lastMessage = document.querySelector(".chat-widget__messages-container");
     lastMessage.scrollTop = lastMessage.scrollHeight;
+
   }
 
 };
