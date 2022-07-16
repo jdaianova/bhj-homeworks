@@ -1,20 +1,17 @@
-const mainInterests  = document.querySelectorAll('.interest__check');
-console.log(mainInterests);
+const interests = document.querySelectorAll('.interests');
 
-for (let i = 0; i < mainInterests.length; i++) {
-    mainInterests[i].onchange = () => {
-        const childrenInterests = mainInterests[i].children;
-        console.log (i);
-        console.log (childrenInterests); //?
-
-        if (mainInterests[i].checked == true) {
-            for (let j = 0; j < childrenInterests.length; j++) {
-                childrenInterests.checked = true;   
+interests.forEach( (interest) => {
+    const typeOfInterests = interest.parentElement.querySelector('input');
+    typeOfInterests.onchange = () => {
+        const subInterests = interest.children;
+        if (typeOfInterests.checked == true) {
+            for (let i = 0; i < subInterests.length; i++) {
+                subInterests[i].querySelector('input').checked = true;  
             };
         } else {
-            for (let j = 0; j < childrenInterests.length; j++) {
-                childrenInterests[j].checked = false;   
+            for (let i = 0; i < subInterests.length; i++) {
+                subInterests[i].querySelector('input').checked = false;  
             };
         }
-    }
-}
+    };
+} );
