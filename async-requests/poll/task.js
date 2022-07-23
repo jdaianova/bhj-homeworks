@@ -7,6 +7,7 @@ request.open("GET", url);
 request.send();
 request.onload = () => {
   var data = JSON.parse(request.responseText);
+  console.log(data);
 
   pollTitle.innerHTML = data.data.title;
   const answers = data.data.answers;
@@ -15,10 +16,9 @@ request.onload = () => {
     pollAnswers.appendChild(answer);
     answer.classList.add("poll__answer");
     answer.innerHTML = element;
-    answer.addEventListener('click', () => {
-        alert('Спасибо, ваш вопрос засчитан!');
+    answer.addEventListener("click", () => {
+      alert("Спасибо, ваш вопрос засчитан!");
+      window.location.reload();
     });
-
   });
-
 };
