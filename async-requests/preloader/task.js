@@ -1,33 +1,38 @@
-const loader = document.querySelector("#loader");
-let url = "https://netology-slow-rest.herokuapp.com";
-const items = document.querySelector("#items");
+const urlRates = "https://netology-slow-rest.herokuapp.com";
 
-let request = new XMLHttpRequest();
-request.open("GET", url);
-request.send();
-request.onload = () => {
-  loader.classList.remove("loader_active");
-  var data = JSON.parse(request.responseText);
-  const valutes = Object.values(data.response.Valute);
+function getRequest(url, callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url);
+  xhr.onload = () => {
+    callback(xhr.responseText);
+  };
+  xhr.send();
+}
 
-  valutes.forEach((element) => {
-    const item = document.createElement("div");
-    const itemCode = document.createElement("div");
-    const itemValue = document.createElement("div");
-    const itemCurrency = document.createElement("div");
+function getExchangeRates(response) {
+  document.querySelector("#loader").classList.remove("loader_active");
+  const valutes = Object.values(JSON.parse(response).response.Valute);
 
-    items.appendChild(item);
-    item.appendChild(itemCode);
-    item.appendChild(itemValue);
-    item.appendChild(itemCurrency);
+  const htmlElement = `
+  ${valutes
+    .map(
+      (valute) => `
+  <div class="item">
+    <div class="item__code">
+        ${valute.CharCode}
+    </div>
+    <div class="item__value">
+        ${valute.Value}
+    </div>
+    <div class="item__currency">
+        руб.
+    </div>
+  </div>
+    `
+    )
+    .join("")}`;
 
-    itemCode.innerHTML = element.CharCode;
-    itemValue.innerHTML = element.Value;
-    itemCurrency.innerHTML = "руб.";
+  document.querySelector("#items").innerHTML = htmlElement;
+}
 
-    item.classList.add("item");
-    itemCode.classList.add("item__code");
-    itemValue.classList.add("item__value");
-    itemCurrency.classList.add("item__currency");
-  });
-};
+getRequest(urlRates, getExchangeRates);
