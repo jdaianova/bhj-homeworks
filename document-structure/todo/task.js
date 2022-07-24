@@ -4,7 +4,6 @@ const tasksList = document.getElementById("tasks__list");
 
 buttonTaskAdd.addEventListener("click", (event) => {
   if (taskInput.value.trim() != "") {
-
     const htmlTask = `
     <div class="task">
       <div class="task__title">${taskInput.value}</div>
@@ -13,16 +12,16 @@ buttonTaskAdd.addEventListener("click", (event) => {
       </a>
     </div>`;
 
-    tasksList.innerHTML = tasksList.innerHTML + htmlTask;
-    //console.log(tasksList);
+    let taskElement = new DOMParser()
+      .parseFromString(htmlTask, "text/html")
+      .querySelector(".task");
+    tasksList.appendChild(taskElement);
 
-    // обработка события удаления задания
-    // ??.addEventListener("click", () => {
-    //   document.getElementById("tasks__list").removeChild(task);
-    // });
+    taskElement.querySelector("a").addEventListener("click", () => {
+      tasksList.removeChild(taskElement);
+    });
   }
 
-  //обнуление поля ввода
   taskInput.value = "";
   event.preventDefault();
 });
