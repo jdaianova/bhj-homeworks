@@ -1,22 +1,52 @@
-const tooltips = document.querySelectorAll('.has-tooltip');
-const body = document.querySelector('body');
+const linksTooltips = document.querySelectorAll(".has-tooltip");
+const body = document.querySelector("body");
+var previousTipText;
 
-tooltips.forEach( (tip) => {
+// создание массива всех подсказок
+linksTooltips.forEach((element) => {
+  const htmlElement = `
+    <div class="tooltip" style="left: 0; top: 0">${element.title.trim()}</div>`;
+  let tooltipElement = new DOMParser()
+    .parseFromString(htmlElement, "text/html")
+    .querySelector(".tooltip");
+  body.appendChild(tooltipElement);
+});
+const tooltips = document.querySelectorAll(".tooltip");
 
-    tip.addEventListener('click', (e) => {
+//обработчик клика по ссылке на подсказку
+linksTooltips.forEach((tip) => {
+  tip.addEventListener("click", (e) => {
+    //нахождение объекта предыдущего клика
+    linksTooltips.forEach((tip) => {
+      if (tip.classList.contains("clicked")) {
+        previousTipText = tip.title;
+        tip.classList.remove("clicked");
+      }
+    });
 
-        //const currentActiveTip = document.querySelector('tooltip_active');
-        //currentActiveTip.classList.remove('tooltip_active');
+    //текущий клик
+    tip.classList.add("clicked");
+    //сравнение содержимого предыдущего и текущего клика
+    if (previousTipText == tip.title) {
+      //нахожждение соответствующей подсказки по тексту+toggle
+        tooltips.forEach((element) => {
+        if (element.innerText == tip.title) {
+          element.classList.toggle("tooltip_active");
+        }
+      });
+    } else {
+      var position = tip.getBoundingClientRect();    
+      tooltips.forEach((element) => {
+        if (element.innerText == tip.title) {
+          element.classList.add("tooltip_active");
+          element.style.left = position.left;
+          element.style.top = position.bottom;
+        }
 
-        e.preventDefault();
-        const tooltip = document.createElement('div');
-        body.appendChild(tooltip);
-        tooltip.classList.add('tooltip', 'tooltip_active');
-        tooltip.textContent = tip.title;
-        tooltip.style = 'left: 0; top: 0';
-        //tooltip.setAttribute("data-position", "left"); 
-        //console.log(tooltip);
+      });
 
-    } );
+    }
 
-} );
+    e.preventDefault();
+  });
+});
