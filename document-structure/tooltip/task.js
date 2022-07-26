@@ -29,22 +29,20 @@ linksTooltips.forEach((tip) => {
     //сравнение содержимого предыдущего и текущего клика
     if (previousTipText == tip.title) {
       //нахожждение соответствующей подсказки по тексту+toggle
-        tooltips.forEach((element) => {
+      tooltips.forEach((element) => {
         if (element.innerText == tip.title) {
           element.classList.toggle("tooltip_active");
         }
       });
     } else {
-      var position = tip.getBoundingClientRect();    
+      var position = tip.getBoundingClientRect();
       tooltips.forEach((element) => {
         if (element.innerText == tip.title) {
           element.classList.add("tooltip_active");
           element.style.left = position.left;
           element.style.top = position.bottom;
         }
-
       });
-
     }
 
     e.preventDefault();
