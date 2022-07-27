@@ -1,26 +1,26 @@
-let url = 'https://netology-slow-rest.herokuapp.com/upload.php';
-const progress = document.getElementById( 'progress' );
-const btnSubmit = document.querySelector('#send');
+let url = "https://netology-slow-rest.herokuapp.com/upload.php";
+const progress = document.getElementById("progress");
+const btnSubmit = document.querySelector("#send");
 
-btnSubmit.onclick = (e) => {
+btnSubmit.onclick = () => {
   upload(file);
 };
 
-  function upload(file) {
-    let xhr = new XMLHttpRequest();
+function upload(file) {
+  let xhr = new XMLHttpRequest();
 
-    xhr.upload.onprogress = function(event) {
-        progress.value = event.loaded;
-    };
-  
-    xhr.onloadend = function() {
-      if (xhr.status == 200) {
-        console.log("Успех");
-      } else {
-        console.log("Ошибка " + this.status);
-      }
-    };
-  
-    xhr.open("POST", url);
-    xhr.send(file);
-  }
+  xhr.upload.onprogress = function (event) {
+    progress.value = event.loaded;
+  };
+
+  xhr.onloadend = function () {
+    if (xhr.status == 200) {
+      console.log("Успех");
+    } else {
+      console.log("Ошибка " + this.status);
+    }
+  };
+
+  xhr.open("POST", url);
+  xhr.send(file);
+}
