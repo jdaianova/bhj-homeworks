@@ -1,59 +1,50 @@
-const quantityControl = document.querySelectorAll(".product__quantity-control");
-const addCartButtons = document.querySelectorAll(".product__add");
-const cart = document.querySelector(".cart__products");
+const products = document.querySelectorAll(".product");
+const cart = document.querySelector(".cart");
 
-// обработка клика по + или -
-quantityControl.forEach((buttonPlusOrMinus) => {
-  buttonPlusOrMinus.addEventListener("click", (button) => {
-    let currentButton = button.target;
-    if (currentButton.classList.contains("product__quantity-control_inc")) {
-      // увеличение счетчика товара
-      currentButton.previousElementSibling.innerText++;
-    } else if (currentButton.nextElementSibling.innerText >= 2) {
-      // уменьшение счетчика товара
-      currentButton.nextElementSibling.innerText--;
+products.forEach((product) => {
+  const btnIncrease = product.querySelector(".product__quantity-control_inc");
+  const btnDecrease = product.querySelector(".product__quantity-control_dec");
+  const btnAddProduct = product.querySelector(".product__add");
+
+  btnIncrease.onclick = () => {
+    product.querySelector(".product__quantity-value").innerText++;
+  };
+
+  btnDecrease.onclick = () => {
+    if (product.querySelector(".product__quantity-value").innerText <= 1) {
+      product.querySelector(".product__quantity-value").innerText = 1;
+    } else {
+      product.querySelector(".product__quantity-value").innerText--;
     }
-  });
-});
+  };
 
-//обработка клика по кнопке добавления товара
-addCartButtons.forEach((addButton) => {
-  addButton.addEventListener("click", () => {
-    //id товара нажатой кнопки добавления
-    //console.log(addButton.closest('.product').dataset.id);
+  btnAddProduct.onclick = () => {
+    const htmlProduct = `
+    <div class="cart__product" data-id=${product.dataset.id}>
+        <img class="cart__product-image" src=${
+          product.querySelector("img").src
+        }>
+        <div class="cart__product-count">${
+          product.querySelector(".product__quantity-value").innerText
+        }</div>
+    </div>`;
 
-    //url картинки товара нажатой кнопки добавления
-    //console.log(addButton.parentElement.parentElement.previousElementSibling.src);
+    const cartProducts = cart.querySelectorAll(".cart__product");
 
-    //количество товара нажатой кнопки добавления
-    //console.log(addButton.previousElementSibling.firstElementChild.nextElementSibling.textContent);
+    let addedProduct = Array.from(cartProducts).find(
+      (element) => element.dataset.id === product.dataset.id
+    );
 
-    // создание и добавление div class="cart__product" - продукт
-    const cartProduct = document.createElement("div");
-    cart.appendChild(cartProduct);
-    cartProduct.classList.add("cart__product");
-    let currentId = addButton.closest(".product").dataset.id;
-    cartProduct.setAttribute("data-id", currentId);
-
-    // создание и добавление img class="cart__product-image"
-    const cartImgProduct = document.createElement("img");
-    cartProduct.appendChild(cartImgProduct);
-    cartImgProduct.classList.add("cart__product-image");
-    const cartImgProductUrl =
-      addButton.parentElement.parentElement.previousElementSibling.src;
-    cartImgProduct.setAttribute("src", cartImgProductUrl);
-
-    // создание и добавление div class="cart__product-count"
-    const productCount = document.createElement("div");
-    cartProduct.appendChild(productCount);
-    productCount.classList.add("cart__product-count");
-    let currentCount =
-      addButton.previousElementSibling.firstElementChild.nextElementSibling
-        .textContent;
-    productCount.innerText = currentCount;
-
-    //console.log(cart);
-
-
-  });
+    if (addedProduct) {
+      addedProduct.querySelector(".cart__product-count").innerText =
+        Number(addedProduct.querySelector(".cart__product-count").innerText) +
+        Number(product.querySelector(".product__quantity-value").innerText);
+    } else {
+      cart.appendChild(
+        new DOMParser()
+          .parseFromString(htmlProduct, "text/html")
+          .querySelector(".cart__product")
+      );
+    }
+  };
 });
