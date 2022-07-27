@@ -1,5 +1,10 @@
 let url = 'https://netology-slow-rest.herokuapp.com/upload.php';
 const progress = document.getElementById( 'progress' );
+const btnSubmit = document.querySelector('#send');
+
+btnSubmit.onclick = (e) => {
+  upload(file);
+};
 
   function upload(file) {
     let xhr = new XMLHttpRequest();
@@ -19,5 +24,3 @@ const progress = document.getElementById( 'progress' );
     xhr.open("POST", url);
     xhr.send(file);
   }
-
-  upload(file);
