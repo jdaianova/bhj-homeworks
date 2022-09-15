@@ -1,3 +1,7 @@
+.content {
+  text-align: center;
+}
+
 textarea {
   max-width: 100%;
   width: 100%;
@@ -7,4 +11,17 @@ textarea {
   font-family: Golos, Arial, sans-serif;
   border: 1px solid #e2e2e2;
   box-sizing: border-box;
+}
+
+#buttonClear {
+  text-transform: uppercase;
+  padding: 20px;
+  background-color: gray;
+  font-size: 15px;
+}
+
+#buttonClear:hover {
+  background-color: rgb(203, 202, 202);
+  font-size: 17px;
+  color: black;
 }
