@@ -8,4 +8,5 @@ textarea.addEventListener("keydown", () => {
 
 buttonClear.addEventListener("click", () => {
   textarea.value = "";
+  localStorage.clear();
 });

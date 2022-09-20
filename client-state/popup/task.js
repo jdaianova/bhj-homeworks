@@ -1,12 +1,7 @@
-const popup = document.querySelector("#subscribe-modal");
-const closePopup = document.querySelector(".modal__close");
+ const popup = document.querySelector("#subscribe-modal");
+ const closePopup = document.querySelector(".modal__close");
 
-if (
-  !(
-    document.cookie.indexOf("popup") == 0 &&
-    document.cookie.indexOf("wasShowed") == 6
-  )
-) {
+if (!(document.cookie.includes("popup=wasShowed"))) {
   popup.classList.add("modal_active");
 }
 

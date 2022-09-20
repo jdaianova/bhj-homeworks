@@ -11,6 +11,7 @@ function upload(file) {
 
   xhr.upload.onprogress = function (event) {
     progress.value = event.loaded;
+    console.log(xhr);
   };
 
   xhr.onloadend = function () {
